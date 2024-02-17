@@ -1,0 +1,9 @@
+.lecture img{
+    max-width: 100% !important
+}
+.birinci{
+    color: red !important
+}
+.not-visible{
+    display: none;
+}

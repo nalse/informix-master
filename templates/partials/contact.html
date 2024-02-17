@@ -1,0 +1,48 @@
+<div class="container">
+    <button class="btn btn-primary container" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Rəylər 
+    </button>
+    <div class="collapse" id="collapseExample">
+      <div class="container mt-5">
+        {% if mesajlar %}
+          {% for mesaj in mesajlar %}
+            <div class="container">
+              <div class="media mb-4">
+                <div class="media-body">       
+                    <h6> <i class="fa fa-user" aria-hidden="true" style="border: 1px solid black; border-radius: 50% ; padding: 4px;" ></i>    {{mesaj.istifadeci}} <small><i style="color: crimson;">{{mesaj.contact_date}}</i></small></h6>
+                    <p style="margin-left: 20px;">{{mesaj.message}}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      
+      <div class="container">
+        <form action="{% url 'contact'%}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="hidden" name="video_id" value="{{video.id}}">
+            <input type="hidden" name="video" class="form-control" value="{{video.basliq}}">
+          </div>
+          {% if user.is_authenticated %}
+          <div class="form-group">
+            <label for="message" class="col-form-label">Təşəkkülərinizi rəy yazaraq bildirə bilərsiniz:</label>
+            <div class="container" style="display: flex; flex-direction: row; column-gap: 4px; justify-content: space-between; ">
+              <textarea name="message" class="form-control"> </textarea> 
+              <button type="submit" class="btn ">
+                <i class="fa fa-paper-plane" aria-hidden="true" style="font-size: 50px; color:chocolate;" ></i>
+              </button>
+            </div>
+          </div>
+          <hr>
+          {% else %}
+          <div class="form-group">
+            <label for="message" class="col-form-label">Rəy yazmaq üçün qeydiyyatdan keçməlisiniz!</label>
+          </div>
+          {% endif %}
+        </form>
+      </div>
+      
+    </div>
+</div>

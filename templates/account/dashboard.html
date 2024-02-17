@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title%} Testlər {% endblock title %}
+{% block content %}
+{% include 'partials/_header.html'%}
+<div class="container mt-5" >
+    <h3>Salam {{user.username}}, sizin nəticələriniz buradadır.</h3>
+    <div class="container ">
+        <div class="mb-5">
+          <ul class="list-group list-group-flush">
+            <p><b>Qeyd:</b> Nəticələr testi birinci dəfə işlədikdə buraya yazılacaq</p>
+              {% for result in results %}  
+                  {% if user.id == result.u_id %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        <a href="#">{{result.quiz}}</a>
+                        <span class="badge badge-primary badge-pill" style="background-color: darkgreen;">{{result.score|floatformat:"1"}}%</span>
+                    </li>
+                  {% endif %}
+              {% endfor %}
+          </ul>
+        </div>
+    </div>
+</div>
+{% include 'partials/_footer.html'%}
+{% endblock %}

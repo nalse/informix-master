@@ -1,0 +1,101 @@
+{% extends "base.html"%}
+{% load static %}
+{% block title%}
+  Video - {{video.basliq}}
+{% endblock title%}
+{% block content %}
+{% include 'partials/_header.html'%}
+<!-- Video blog Start -->
+  <div class="container pt-5">
+    <div class="row ">
+        <div class="col-lg-8">
+          <div class="row align-items-start">
+            <div class="d-flex flex-column text-left mb-3">
+              <p class="section-title pr-5"><span class="pr-2">{{video.basliq}}</span></p>
+              <div class="d-flex">
+                  <p class="mr-3"><i class="fa fa-user" style="color:rgb(10, 172, 69);"></i> {{video.teacher}}</p>
+                  <p class="mr-3"><i class="fa fa-folder" style="color:rgb(10, 172, 69);"></i> {{video.kateqoriya}}</p>
+              </div>
+          </div> 
+            {%if video.video.url %}
+              <div class="container" >
+                <video  controls="controls" style="display: block; margin: 1er auto; width: 100%; ">
+                  <source src="{{video.video.url}}" type="video/mp4"/>
+                </video>
+              </div>
+            {% endif %}                
+          </div>      
+          <div class="container pt-5">
+            <button class="btn btn-primary container" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Rəylər 
+            </button>
+            <div class="collapse" id="collapseExample">
+              <div class="container mt-5">
+                {% if mesajlar %}
+                  {% for mesaj in mesajlar %}
+                    <div class="container">
+                      <div class="media mb-4">
+                        <div class="media-body">       
+                            <h6> <i class="fa fa-user" aria-hidden="true" style="border: 1px solid black; border-radius: 50% ; padding: 4px;" ></i>    {{mesaj.istifadeci}} <small><i style="color: rgb(10, 172, 69);;">{{mesaj.contact_date}}</i></small></h6>
+                            <p style="margin-left: 20px;">{{mesaj.message}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <hr>
+              <div class="container">
+                <form action="{% url 'contact'%}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <input type="hidden" name="video_id" value="{{video.id}}">
+                    <input type="hidden" name="video" class="form-control" value="{{video.basliq}}">
+                  </div>
+                  {% if user.is_authenticated %} 
+                  <div class="form-group">
+                    <label for="message" class="col-form-label">Təşəkkülərinizi rəy yazaraq bildirə bilərsiniz:</label>
+                    <div class="container" style="display: flex; flex-direction: row; column-gap: 4px; justify-content: space-between; ">
+                      <textarea name="message" class="form-control" > </textarea> 
+                      <button type="submit" class="btn ">
+                        <i class="fa fa-paper-plane" aria-hidden="true" style="font-size: 50px; color:rgb(10, 172, 69);" ></i>
+                      </button>
+                    </div>
+                    <label for="message" class="col-form-label">Şərhlərdə qeyri etik ifadələr və qanunla qadağan edilmiş hallar müşahidə olunarsa müvafiq tədbirlər görüləcək.</label>
+                  </div>
+                  <hr>
+                  {% else %}
+                  <div class="form-group">
+                    <label for="message" class="col-form-label " style="color:red">Rəy yazmaq üçün qeydiyyatdan keçməlisiniz!</label>
+                  </div>
+                  {% endif %}
+                </form>
+              </div>              
+            </div>
+        </div>
+        </div>
+        <div class="col-lg-4 mt-5 mt-lg-5 pt-5">
+          {% if videos %}
+          {% for video in videos%}
+          <div class="col-md-12 col-sm-6 wow fadeInUp mb-3" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"><a class="cat-item d-block bg-light text-center rounded p-3" href="{% url 'video' video.id %}">
+            <div class="rounded p-4">
+              <div class="icon mb-3">
+                <img class="img-fluid" src="{{video.photo.url}}" alt="website template image" style=" height: 218px;">
+              </div>
+              <h6>{{video.basliq}}</h6>
+              <span>{{video.kateqoriya}}</span>
+            </div>
+            </a>
+          </div> 
+            {% endfor%}
+            {% else%}
+            <div class="col-md-12">
+                melumat yoxdur
+            </div>
+            {%endif%}          
+        </div>
+    </div>
+</div>
+{% include 'partials/_footer.html'%}
+
+{% endblock%}

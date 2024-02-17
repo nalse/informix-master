@@ -1,0 +1,53 @@
+{%load static%}
+    <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-white py-5 px-sm-3 px-lg-5" style="margin-top:90px;">
+            <div class="row pt-5">
+              <div class="col-lg-7 col-md-12">
+                <div class="row">
+                  <div class="col-md-6 mb-5">
+                    <h5 class=" text-uppercase mb-4" style="letter-spacing:5px; color: rgb(10, 172, 69)">Bizimlə Əlaqə</h5>
+                    {% if pages%}
+                        <p><i class="fab fab fa-facebook-square fa-2x mr-3"></i>{{pages.facebook_hesabi}}</p>   
+                        <p><i class="fa fa-2x fa-envelope mr-3"></i>{{pages.email_hesabi}}</p>
+                        <p>  <i class="fa fa-2x fa-phone mr-3"></i>{{pages.whatsapp_hesabi}}</p>
+                    {% else %}
+                    {% endif %}
+                    
+                  </div>
+                  <div class="col-md-6 mb-5">
+                    <h5 class="text-uppercase mb-4" style="letter-spacing:5px;color: rgb(10, 172, 69);">Sürətli keçid</h5>
+                    <div class="d-flex flex-column justify-content-start">                           
+                            <a href="{% url 'index'%}" class="nav-item nav-link active"  style="color: aliceblue;">
+                            <i class="fa fa-angle-right mr-2" style="color: aliceblue;"></i>Əsas</a>
+                            <a href="{% url 'about'%}" class="nav-item nav-link" style="color: aliceblue;"><i class="fa fa-angle-right mr-2"  style="color: aliceblue;"></i>Haqqımızda</a> 
+                            <a href="{% url 'quizes'%}" class="nav-item nav-link"  style="color: aliceblue;"><i class="fa fa-angle-right mr-2"  style="color: aliceblue;"></i>Testlər</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-12 mb-5">
+                <h5 class="text-uppercase mb-4" style="letter-spacing:5px;color: rgb(10, 172, 69);">Yeniliklər</h5>
+                <p> Tezliklə aktiv olacaq.</p>
+                <div class="w-100">
+                  <div class="input-group">
+                    <input type="text" class="form-control border-light" style="padding:30px;" placeholder="Email adresinizi daxil edin">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary px-4">Abunə ol</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color:rgba(256,256,256,.1) !important;">
+            <div class="row">
+              <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
+                <p class="m-0 text-white">© <a href="https://www.free-css.com/free-css-templates" style="color: rgb(255, 255, 255)">informix.az</a>. Bütün hüquqları qorunur.</p>
+              </div>
+            </div>
+          </div>
+
+    <!-- Footer End -->
+
+    
+   

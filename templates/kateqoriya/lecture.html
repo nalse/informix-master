@@ -1,0 +1,99 @@
+{% extends "base.html"%} 
+
+{% load static %}
+{% block title%}
+  Mühazirə -{{lecture.adi}}
+{% endblock title%}
+{% block content %}
+{%include 'partials/_header.html' %}
+<div class="container py-5">
+  <div class="row pt-5">
+    <div class="col-lg-8" style="border-right: 1px solid black;">
+          <div class="d-flex flex-column text-left mb-3">
+              <p class="section-title pr-5"><span class="pr-2">Mühazirə</span></p>
+              {% if lecture.adi %}
+                <h1 class="mb-3">{{lecture.adi}}</h1>
+              {%else%}
+              <h1 class="mb-3">Mühazirə Məlumatları yüklənilir</h1>
+              {%endif%}
+              <div class="d-flex">
+                  <p class="mr-3"><i class="fa fa-user" style="color:rgb(10, 172, 69);"></i> {{lecture.teacher}}</p>
+                  <p class="mr-3"><i class="fa fa-folder" style="color:rgb(10, 172, 69);"></i> {{lecture.kateqoriya}}</p>
+              </div>
+          </div> 
+          {%if lecture.body %}
+          <div class="mb-5">
+            {{lecture.body | safe}}
+          </div>
+          {% endif %}
+<!-- Comment List -->
+<div class="container">
+  <button class="btn btn-primary container" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Rəylər 
+  </button>
+  <div class="collapse" id="collapseExample">
+    <div class="container mt-5">
+      {% if mesajlar %}
+      {% for mesaj in mesajlar %}
+      <div class="media mb-4">
+        <img src="{% static 'img/user.png' %}"  alt="Image" class="img-fluid rounded-circle mr-3 mt-1" style="width: 45px; border:1px solid black ;">
+        <div class="media-body">
+            <h6>{{mesaj.istifadeci}}<small><i>{{mesaj.contact_date}}</i></small></h6>
+            <p>{{mesaj.message}}</p>
+        </div>
+    </div>
+      {% endfor %}
+    {% endif %}
+    </div>
+    
+    <div class="container">
+      <form action="{% url 'contact_lecture'%}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="hidden" name="lecture_id" value="{{lecture.id}}">
+        </div>
+        {% if user.is_authenticated %}
+        <div class="form-group">
+          <label for="message" class="col-form-label">Təşəkkülərinizi rəy yazaraq bildirə bilərsiniz:</label>
+          <div class="container" style="display: flex; flex-direction: row; column-gap: 4px; justify-content: space-between; ">
+            <textarea name="message" class="form-control" > </textarea> 
+            <button type="submit" class="btn ">
+              <i class="fa fa-paper-plane" aria-hidden="true" style="font-size: 50px; color:rgb(10, 172, 69);" ></i>
+            </button>
+          </div>
+          <label for="message" class="col-form-label">Şərhlərdə qeyri etik ifadələr və qanunla qadağan edilmiş hallar müşahidə olunarsa müvafiq tədbirlər görüləcək.</label>
+        </div>
+        <hr>
+        {% else %}
+        <div class="form-group">
+          <label for="message" class="col-form-label">Rəy yazmaq üçün qeydiyyatdan keçməlisiniz!</label>
+        </div>
+        {% endif %}
+      </form>
+    </div>
+    
+  </div>
+</div>  
+    </div>  
+    <div class="col-lg-4 mt-5 mt-lg-0 ">  
+    <div class="mb-5">  
+      <p class="section-title px-5 justify-content-center" ><span class="px-2">Mühazirələr</span></p>
+      {% if lectures %}
+        {% for lecture in lectures %}
+          <a class="d-flex align-items-center text-decoration-none mb-3" href="{% url 'lecture' lecture.id %}"><img class="img-fluid rounded" src="{{lecture.photo.url}}" alt="website template image" style="width: 80px; height: 80px;">
+          <div class="pl-3">
+            <h6 class="m-1">{{lecture.adi}}</h6>
+            <small style="color:rgb(10, 172, 69)"> {{lecture.tarix}}</small>
+          </div></a>
+        {% endfor%}
+      {% else %}
+            <div class="col-md-12">
+              heleki yoxdur
+            </div>
+      {% endif %}
+    </div>
+    </div>
+  </div>
+</div>
+{% include 'partials/_footer.html'%}
+{% endblock %}

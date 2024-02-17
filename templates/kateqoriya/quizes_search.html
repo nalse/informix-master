@@ -1,0 +1,131 @@
+{% extends "base.html"%}
+
+{% load static%}
+
+{% block title%} Testlər {% endblock title %}
+
+{% block scripts %}
+  <script src="{% static 'quizes/main.js'%}" defer></script>
+{% endblock scripts%}
+
+{% block content %}
+
+<div class="container-fluid page-header" style="height: 305px;">
+  <div class="container">     
+      <section id="showcase">
+          <div class="container text-center">
+            <div class="home-search p-5">
+              <div class="overlay p-5">
+                <h5 class="display-4 mb-4" style="color: white;">
+                 Testləri  Çeşidləyin
+                </h5>
+                <p class="lead"></p>
+                <div class="search">
+                  <form action="{% url 'quiz-search' %}">
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label class="sr-only">kateqoriya</label>
+                        <select name="kateqoriya" class="form-control">
+                          <option selected="true" disabled="disabled">Bölmə</option>
+                          {% for key,value in kateqoriya.items %}
+                          <option value="{{ key }}"
+                            {% if key == values.kateqoriya %}
+                              selected
+                            {% endif %}>{{value}}</option>
+                         {% endfor %}
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <select name="qiymet" class="form-control">
+                          <option selected="true" disabled="disabled">Qiymət</option>
+                          {% for key,value in qiymet.items %}
+                          <option value="{{ key }}"
+                            {% if key == values.qiymet %}
+                              selected
+                            {% endif %}>{{value}}</option>
+                         {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <button class="btn btn-block mt-4" type="submit"style="color:white !important; background-color:#4674b0"><b>Göstər</b></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="container-fluid">
+        <div class="container py-3 my-3">
+           <!-- Button trigger modal -->
+            <div class="services" style="padding:10px">
+                <div class="container ">
+                    <div class="row ">
+                          {% if quizes %}
+                            {% for obj in quizes %}
+                              <div class="col-md-4   mb-5 test">
+                                <div class="service-item" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+                                  <div class="icon">
+                                    <i class="fa fa-list"></i>
+                                  </div>
+                                  <div class="down-content">
+                                    <h4>Testin adı:{{obj.name}}</h4>
+                                    <h4 style="color:red">{{obj.kateqoriya}}</h4>
+                                    <p>Verilən vaxt:{{obj.time}} dəqiqə</p>
+                                    <p>Sualların sayı:{{obj.sual_sayi}}</p>
+                                    <p>Qiymət:
+                                      {% if obj.qiymet > 0 %}
+                                        {{obj.qiymet}} AZN
+                                      {% else %}
+                                        Pulsuz
+                                      {%endif%}
+                                    </p>
+                                    <button type="button"  
+                                    class="btn btn-link  modal-button" 
+                                    style="background-color:#235391; color: aliceblue"
+                                    data-toggle="modal" 
+                                    data-pk = "{{obj.pk}}"
+                                    data-target="#quizStartModal"
+                                    data-time ="{{obj.time}}"
+                                    data-quiz="{{obj.name}}"
+                                    data-topic = "{{obj.topic}}"
+                                    data-quiestions="{{obj.sual_sayi}}" style="color: white">
+                                         Bax
+                                    </button>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Modal -->
+                                <div class="modal fade" id="quizStartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Başla</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body" id ="modal-body-confirm"></div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Bağla</button>
+                                        <button type="button" id="start-button" class="btn btn-success">Davam et</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            {% endfor %}
+                    </div>
+                    {% else %}
+                        <div class="col-md-12">
+                            heleki yoxdur
+                        </div>
+                    {% endif %}
+                </div>
+              </div>
+
+    </div>
+    </div>
+    {% include "partials/_footer.html"%}
+{% endblock %}

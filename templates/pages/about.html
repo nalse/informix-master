@@ -1,0 +1,92 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title %} Haqqımızda {% endblock title %}
+{% block content %}
+{% include 'partials/_header.html'%}     
+<div class="container-fluid pt-5 header-bottom" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;">
+    <div class="container ">
+      <form action="{% url 'search' %}" name="search-form">        
+        <div class="row">       
+          {% for key, value in kateqoriya.items %}
+          <div class="col-lg-3 col-md-6 mb-4" name="kateqoriya">
+            <div class="cat-item position-relative overflow-hidden rounded mb-2 p-3" onClick="document.forms['search-form'].submit();"><img class="img-fluid" src="{% static 'img/book.png' %}" style="height: 40px;" alt="website template image"> <a class=" text-black text-decoration-none" >
+              <input type="radio" id="{{value}}" name="kateqoriya" value="{{key}}" style="display: none;">
+              <label for="{{value}}">{{value}}</label><br> 
+            </a>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+      </form>
+    </div>
+  </div>
+  
+<!-- About Start -->
+         
+<div class="container-fluid">
+    {%if pages%}
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-5">
+                <img class="img-fluid rounded mb-4 mb-lg-0"style="width: 500px;" src="{{pages.haqqimizda_photo.url}}" alt="">
+            </div>
+            <div class="col-lg-7">
+                <div class="text-left mb-4">
+                    <p class="section-title pr-5"><span class="pr-2">{{ pages.haqqimizda_basliq}}</span></p>
+                </div>
+                <p>{{pages.haqqimizda_text}}</p>
+                <div class="col-6 col-md-8">
+                    <ul class="list-inline m-0">
+                        <li class="py-2 border-top border-bottom"><i class="fa fa-check mr-3" style="color: rgb(10, 172, 69);"></i>Müəllimlərin işə qəbulu</li>
+                        <li class="py-2 border-bottom"><i class="fa fa-check mr-3" style="color: rgb(10, 172, 69);"></i>Dövlət qulluğu</li>
+                        <li class="py-2 border-bottom"><i class="fa fa-check mr-3" style="color: rgb(10, 172, 69);"></i>Abituriyent</li>
+                        <li class="py-2 border-bottom"><i class="fa fa-check mr-3" style="color: rgb(10, 172, 69);"></i>Magistr</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    {%else%}
+    <div class="col-md-12"></div>
+    {% endif %}
+</div>
+<!-- About End -->
+ <!-- Team Start -->
+ <div class="container-fluid">
+    <div class="container pt-5 pb-3">
+        <div class="text-center mb-5">
+            <h5 class="primary text-uppercase mb-3" style="letter-spacing: 5px;">Müəllimlər</h5>
+            <h1>Müəllimlərlə Əlaqə</h1>
+        </div>
+        <div class="row">
+            {% if teachers %}
+                {% for teacher in teachers%}
+                <div class="col-md-6 col-lg-3 text-center team mb-4">
+                    <div class="team-item rounded overflow-hidden mb-2">
+                        <div class="team-img position-relative">
+                            <img class="img-fluid" src="{{teacher.photo.url}}" alt="">
+                            <div class="team-social">
+                                <a class="btn btn-outline-light btn-square mx-1" href="{{teacher.facebook_heabi_url}}"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="{{teacher.twitter_hesabi_url}}"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="{{teacher.instagram_hesabi_url}}"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                        <div class="bg-secondary p-4">
+                            <h5>{{teacher.ad_soyad}}</h5>
+                            <p class="m-0">{{teacher.haqqinda}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor%}
+            {% else %}
+                <div class="col-md-12">yoxdur</div>
+            {% endif %}
+        </div>  
+    </div>  
+    
+  </div>
+<!-- Team End -->
+{% include 'partials/_footer.html'%}
+
+{% endblock %}

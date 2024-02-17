@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+{% include 'partials/_header.html'%}
+<section class="offer_section hero_next_section-margin layout_padding pt-5 pb-3">
+    <div class="container">
+        <div class="text-center">
+            <h5 class="my-primary text-uppercase mb-3" style="letter-spacing: 5px;">MİQ bölməsi üzrə</h5>
+            <h1>Ən sonuncu mövzular</h1>
+        </div>
+      <div class="row">
+        {% if lectures %}
+          {% for lecture in lectures %}
+            <div class="col-md-6">
+              <a href="{% url 'lecture' lecture.id %}"> 
+            <div class="content-box"style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+              <div class="img-box">
+                  <i class="fa fa-book" style='font-size: 70px;'></i>
+              </div>
+              <div class="detail-box">
+              <h6>
+                  {{lecture.adi}}
+              </h6>
+                <p>
+                  {{lecture.tarix}}
+                </p>
+              </div>
+            </div>
+            </a>
+            </div>
+          {% endfor%}
+        {% else %}
+          <div class="col-md-12">
+              heleki yoxdur
+          </div>
+        {% endif %}
+      </div>
+      <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+          {% if lectures.has_other_pages %}
+          <ul class="pagination" >
+            {% if lectures.has_previous %}
+            <li class="page-item">
+              <a href="?page={{lectures.previous_page_number}}" class="page-link" >&laquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <a class="page-link"> &laquo;</a>
+            </li>
+            {% endif %}
+            {% for i in lectures.paginator.page_range%}
+              {%if lectures.number == i %}
+                <li class="page-item active">
+                  <a class="page-link"  style="background-color: black; border-color:black;">{{i}}</a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a href="?page={{i}}" class="page-link" style=" color: black">{{i}}</a>
+                </li>
+              {% endif %}
+            {%endfor%}
+            {% if lectures.has_next %}
+              <li class="page-item">
+                <a href="?page={{lectures.next_page_number}}" class="page-link">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link"> &raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% include 'partials/_footer.html'%}
+  {% endblock %}
